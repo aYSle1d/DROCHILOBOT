@@ -4,7 +4,8 @@ require('dotenv').config()
 const { Bot, Keyboard, Context, GrammyError, HttpError, MEMORY_STORE } = require("grammy")
 const bot = new Bot(process.env.TOKEN)
 const { json } = require("stream/consumers");
-const ADMIN_ID = process.env.ADMIN_ID
+const SMOGGY_ID = process.env.SMOGGY_ID
+const SOULJA_ID = process.env.SOULJA_ID
 const CREATOR_ID = process.env.CREATOR_ID
 const { limit } = require("@grammyjs/ratelimiter");
 const configPath = path.join(__dirname, "config.json");
@@ -51,10 +52,11 @@ bot.command("getmyid", async (ctx) => {
 
 bot.hears("Получить пак", async (ctx) => {
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-    const pass = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
-    if (pass.status === 'left') {
-        await ctx.reply("Подпишись")
-    } else if (pass.status === 'member' || pass.status === 'administrator' || pass.status === 'creator') {
+    const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
+    const pass2 = await bot.api.getChatMember("@soulja17_bs", ctx.from.id)
+    if (pass1.status === 'left' || pass2.status === "left") {
+        await ctx.reply("АНТОН СТОЙ! ты не подписался 😡. Для получения контента нужно подписаться на оба телеграм канала")
+    } else if (pass1.status === 'member' || pass1.status === 'administrator' || pass1.status === 'creator' || pass2.status === 'member' || pass2.status === 'administrator' || pass2.status === 'creator') {
         await ctx.reply(config.pack_message)
     }
 })
@@ -63,7 +65,7 @@ bot.hears("Получить пак", async (ctx) => {
 
 
 bot.command("setpack", async (ctx) => {
-    if(ctx.from.id != ADMIN_ID && ctx.from.id != CREATOR_ID ) {
+    if(ctx.from.id != SMOGGY_ID && ctx.from.id != CREATOR_ID && ctx.from.id != SOULJA_ID ) {
         return await ctx.reply("У вас нет права на выполнение данной команды")
     } 
 
