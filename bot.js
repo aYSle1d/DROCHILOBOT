@@ -30,7 +30,7 @@ bot.use(limit({
 
 
 bot.command("start", async (ctx) => {
-    await ctx.reply("Привет! Для получения пака, нажми кнопку ниже.", {
+    await ctx.reply("Привет я бот Адского дрочилы, созданный для smoggy (https://t.me/OGsmoggy) и 17.souljia (https://t.me/soulja17_bs). У меня ты можешь скачать драм киты, серум банки, пресеты и всякие прикольчики из видосов.", {
         reply_markup: {
             keyboard: [
                 [{ text: "Получить пак" }]
