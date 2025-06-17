@@ -1,0 +1,20 @@
+{
+  "name": "smoggyorexbotgrammy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
+  },
+  "keywords": [],
+  "author": "aYSle1d",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@grammyjs/ratelimiter": "^1.2.1",
+    "dotenv": "^16.4.7",
+    "grammy": "^1.35.0",
+    "ioredis": "^5.6.0",
+    "nodemon": "^3.1.9"
+  }
+}
