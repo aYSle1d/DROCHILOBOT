@@ -58,7 +58,10 @@ bot.hears("Получить драмкит от SMOGGY", async (ctx) => {
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
     if (pass1.status === 'left') {
-        await ctx.reply("АНТОН СТОЙ! ты не подписался 😡. Для получения контента нужно подписаться на телеграм канал smoggy")
+        await ctx.reply("АНТОН СТОЙ\\! ты не подписался 😡\\. Для получения контента нужно подписаться на телеграм канал [smoggy](https://t.me/OGsmoggy)", {
+            parse_mode: "MarkdownV2",
+            link_preview_options: {is_disabled: true}
+        })
     } else if (pass1.status === 'member' || pass1.status === 'administrator' || pass1.status === 'creator') {
         await ctx.reply(config.pack_message1)
     }
@@ -70,7 +73,10 @@ bot.hears("Получить пресеты из видео", async (ctx) => {
     const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
     const pass2 = await bot.api.getChatMember("@soulja17_bs", ctx.from.id)
     if (pass1.status === 'left' || pass2.status === "left") {
-        await ctx.reply("АНТОН СТОЙ! ты не подписался 😡. Для получения контента нужно подписаться на оба телеграм канала")
+        await ctx.reply("АНТОН СТОЙ\\! ты не подписался 😡\\. Для получения контента нужно подписаться на телеграм каналы [smoggy](https://t.me/OGsmoggy) и [17\\.souljia](https://t.me/soulja17_bs)", {
+            parse_mode: "MarkdownV2",
+            link_preview_options: {is_disabled: true}
+        })
     } else if (pass1.status === 'member' || pass1.status === 'administrator' || pass1.status === 'creator' || pass2.status === 'member' || pass2.status === 'administrator' || pass2.status === 'creator') {
         await ctx.reply(config.pack_message2)
     }
