@@ -37,9 +37,9 @@ bot.command("start", async (ctx) => {
         link_preview_options: { is_disabled: true },
         reply_markup: {
             keyboard: [
-                [{ text: "Получить драмкит от SMOGGY"},
-                {text: "Получить пресеты из видео"}, 
-                {text: "Получить пресеты и приложение для войстега"}]
+                [{ text: "Получить драмкит от SMOGGY"}],
+                [{text: "Получить пресеты из видео"}], 
+                [{text: "Получить пресеты и приложение для войстега"}]
             ],
             one_time_keyboard: false, 
             resize_keyboard: true 
