@@ -38,7 +38,8 @@ bot.command("start", async (ctx) => {
         reply_markup: {
             keyboard: [
                 [{ text: "Получить драмкит от SMOGGY"},
-                {text: "Получить пресеты из видео"}]
+                {text: "Получить пресеты из видео"}, 
+                {text: "Получить пресеты и приложение для войстега"}]
             ],
             one_time_keyboard: false, 
             resize_keyboard: true 
@@ -84,6 +85,24 @@ bot.hears("Получить пресеты из видео", async (ctx) => {
 
 
 
+
+
+bot.hears("Получить пресеты и приложение для войстега", async (ctx) => {
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+    const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
+    const pass2 = await bot.api.getChatMember("@soulja17_bs", ctx.from.id)
+    if (pass1.status === 'left' || pass2.status === "left") {
+        await ctx.reply("АНТОН СТОЙ\\! ты не подписался 😡\\. Для получения контента нужно подписаться на телеграм каналы [smoggy](https://t.me/OGsmoggy) и [17\\.souljia](https://t.me/soulja17_bs)", {
+            parse_mode: "MarkdownV2",
+            link_preview_options: {is_disabled: true}
+        })
+    } else if (pass1.status === 'member' || pass1.status === 'administrator' || pass1.status === 'creator' || pass2.status === 'member' || pass2.status === 'administrator' || pass2.status === 'creator') {
+        await ctx.reply(config.pack_message3)
+    }
+})
+
+
+
 bot.command("setpack1", async (ctx) => {
     if(ctx.from.id != SMOGGY_ID && ctx.from.id != CREATOR_ID && ctx.from.id != SOULJA_ID ) {
         return await ctx.reply("У вас нет права на выполнение данной команды")
@@ -111,6 +130,17 @@ bot.command("setpack2", async (ctx) => {
 })
 
 
+bot.command("setpack3", async (ctx) => {
+    if(ctx.from.id != SMOGGY_ID && ctx.from.id != CREATOR_ID && ctx.from.id != SOULJA_ID ) {
+        return await ctx.reply("У вас нет права на выполнение данной команды")
+    } 
+
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+    let packItem = ctx.match
+    config.pack_message3 = packItem
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
+    await ctx.reply("Всё заебок")
+})
 
 
 bot.catch((err) => {
