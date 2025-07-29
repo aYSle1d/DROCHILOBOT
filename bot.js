@@ -38,8 +38,8 @@ bot.command("start", async (ctx) => {
         reply_markup: {
             keyboard: [
                 [{ text: "Получить драмкит от SMOGGY"}],
-                [{text: "Получить пресеты из видео"}], 
-                [{text: "Получить пресеты и приложение для войстега"}]
+                [{text: "ПРЕСЕТЫ/СОУС ИЗ ПРОШЛЫХ РОЛИКОВ"}], 
+                [{text: "Получить Чит для ВОКАЛА"}]
             ],
             one_time_keyboard: false, 
             resize_keyboard: true 
@@ -69,7 +69,7 @@ bot.hears("Получить драмкит от SMOGGY", async (ctx) => {
 })
 
 
-bot.hears("Получить пресеты из видео", async (ctx) => {
+bot.hears("ПРЕСЕТЫ/СОУС ИЗ ПРОШЛЫХ РОЛИКОВ", async (ctx) => {
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
     const pass2 = await bot.api.getChatMember("@soulja17_bs", ctx.from.id)
@@ -87,7 +87,7 @@ bot.hears("Получить пресеты из видео", async (ctx) => {
 
 
 
-bot.hears("Получить пресеты и приложение для войстега", async (ctx) => {
+bot.hears("Получить Чит для ВОКАЛА", async (ctx) => {
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
     const pass2 = await bot.api.getChatMember("@soulja17_bs", ctx.from.id)
