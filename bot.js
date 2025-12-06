@@ -31,7 +31,7 @@ bot.use(limit({
 
 
 bot.command("start", async (ctx) => {
-    await ctx.reply("*Привет\\, я бот Адского дрочилы\\,* созданный для [smoggy](https://t.me/OGsmoggy), [17\\.souljia](https://t.me/soulja17_bs) и [kubfu](https://t.me/kubfu1)\\. " +
+    await ctx.reply("*Привет\\, я бот Адского дрочилы\\,* созданный для [smoggy](https://t.me/OGsmoggy), [17\\.souljia](https://t.me/soulja17_bs) и [kubfu](https://t.me/kubfu1)\\.f " +
         "У меня ты можешь скачать драм киты\\, серум банки\\, пресеты и всякие прикольчики из видосов\\.", {
         parse_mode: 'MarkdownV2',
         link_preview_options: { is_disabled: true },
@@ -166,7 +166,7 @@ bot.command("setpack4", async (ctx) => {
 
     const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
     let packItem = ctx.match
-    config.pack_message3 = packItem
+    config.pack_message4 = packItem
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
     await ctx.reply("Всё заебок")
 });
