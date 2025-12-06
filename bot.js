@@ -31,7 +31,7 @@ bot.use(limit({
 
 
 bot.command("start", async (ctx) => {
-    await ctx.reply("*Привет\\, я бот Адского дрочилы\\,* созданный для [smoggy](https://t.me/OGsmoggy) и [17\\.souljia](https://t.me/soulja17_bs)\\. " +
+    await ctx.reply("*Привет\\, я бот Адского дрочилы\\,* созданный для [smoggy](https://t.me/OGsmoggy), [17\\.souljia](https://t.me/soulja17_bs) и [kubfu](https://t.me/kubfu1)\\. " +
         "У меня ты можешь скачать драм киты\\, серум банки\\, пресеты и всякие прикольчики из видосов\\.", {
         parse_mode: 'MarkdownV2',
         link_preview_options: { is_disabled: true },
@@ -39,7 +39,8 @@ bot.command("start", async (ctx) => {
             keyboard: [
                 [{ text: "Получить драмкит от SMOGGY"}],
                 [{text: "ПРЕСЕТЫ/СОУС ИЗ ПРОШЛЫХ РОЛИКОВ"}], 
-                [{text: "Получить Чит для ВОКАЛА"}]
+                [{text: "Получить Чит для ВОКАЛА"}],
+                [{text: "ПРОЕКТЫ KUBFU X SMOGGY"}]
             ],
             one_time_keyboard: false, 
             resize_keyboard: true 
@@ -102,6 +103,21 @@ bot.hears("Получить Чит для ВОКАЛА", async (ctx) => {
 })
 
 
+bot.hears("ПРОЕКТЫ KUBFU X SMOGGY", async (ctx) => {
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+    const pass1 = await bot.api.getChatMember("@OGsmoggy", ctx.from.id)
+    const pass2 = await bot.api.getChatMember("@kubfu1", ctx.from.id)
+    if (pass1.status === 'left' || pass2.status === "left") {
+        await ctx.reply("АНТОН СТОЙ\\! ты не подписался 😡\\. Для получения контента нужно подписаться на телеграм каналы [smoggy](https://t.me/OGsmoggy) и [kubfu](https://t.me/kubfu1)", {
+            parse_mode: "MarkdownV2",
+            link_preview_options: {is_disabled: true}
+        })
+    } else if (pass1.status === 'member' || pass1.status === 'administrator' || pass1.status === 'creator' || pass2.status === 'member' || pass2.status === 'administrator' || pass2.status === 'creator') {
+        await ctx.reply(config.pack_message4)
+    }
+})
+
+
 
 bot.command("setpack1", async (ctx) => {
     if(ctx.from.id != SMOGGY_ID && ctx.from.id != CREATOR_ID && ctx.from.id != SOULJA_ID ) {
@@ -141,6 +157,19 @@ bot.command("setpack3", async (ctx) => {
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
     await ctx.reply("Всё заебок")
 })
+
+
+bot.command("setpack4", async (ctx) => {
+    if(ctx.from.id != SMOGGY_ID && ctx.from.id != CREATOR_ID && ctx.from.id != SOULJA_ID ) {
+        return await ctx.reply("У вас нет права на выполнение данной команды")
+    } 
+
+    const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+    let packItem = ctx.match
+    config.pack_message3 = packItem
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
+    await ctx.reply("Всё заебок")
+});
 
 
 bot.catch((err) => {
