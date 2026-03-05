@@ -10,10 +10,87 @@ const CREATOR_ID = process.env.CREATOR_ID
 const { limit } = require("@grammyjs/ratelimiter");
 const configPath = path.join(__dirname, "config.json");
 
+// ─────────────────────────────────────────────
+//  Конфигурация ответа на посты канала
+// ─────────────────────────────────────────────
 
+// Кнопки с ссылками (каждый вложенный массив = одна строка)
+const BUTTON_ROWS = [
+  [
+    { text: "💬 ЧАТ",      url: "https://t.me/+u47o8FMZ-UU3MTRi" },
+    { text: "🎵 FL MAFIA", url: "https://t.me/flmafianewbot?start=FV8MJC7W" },
+  ],
+  [
+    { text: "🎹 17.CHEATS", url: "https://t.me/beatchainbot/beatchain?startapp=buykit_122221872419ad92d" },
+    { text: "▶️ YOUTUBE",   url: "https://www.youtube.com/@OGsmoggy" },
+  ],
+  [
+    { text: "🚀 БУСТ", url: "https://t.me/boost/OGsmoggy" },
+  ],
+];
 
+// Фотографии (URL или file_id). Пустой массив = без фото
+const PHOTOS = ["AgACAgIAAxkBAAEDTX9pqV2uq6EBFqqihKINzpq-cQaVXAAC2BRrGzt2UEkoc92D9OBvUAEAAwIAA3kAAzoE"];
 
+// ─────────────────────────────────────────────
 
+function buildInlineKeyboard() {
+  const buttons = BUTTON_ROWS.map(row =>
+    row.map(btn => ({ text: btn.text, url: btn.url }))
+  );
+  return { inline_keyboard: buttons };
+}
+
+async function handleChannelPost(ctx) {
+  const chatId = ctx.message.chat.id;
+  const messageId = ctx.message.message_id;
+  const keyboard = buildInlineKeyboard();
+
+  try {
+    if (PHOTOS.length === 0) {
+      await ctx.api.sendMessage(chatId, "\u200b", {
+        reply_parameters: { message_id: messageId },
+        reply_markup: keyboard,
+      });
+      return;
+    }
+
+    if (PHOTOS.length === 1) {
+      await ctx.api.sendPhoto(chatId, PHOTOS[0], {
+        reply_parameters: { message_id: messageId },
+        reply_markup: keyboard,
+      });
+      return;
+    }
+
+    // Несколько фото → медиагруппа + отдельное сообщение с кнопками
+    const mediaGroup = PHOTOS.map((photo) => ({
+      type: "photo",
+      media: photo,
+    }));
+
+    await ctx.api.sendMediaGroup(chatId, mediaGroup, {
+      reply_parameters: { message_id: messageId },
+    });
+
+    await ctx.api.sendMessage(chatId, "\u200b", {
+      reply_markup: keyboard,
+    });
+  } catch (err) {
+    console.error("Ошибка при ответе на пост:", err);
+  }
+}
+
+// Слушаем группу обсуждений: реагируем только на автоматически
+// переброшенные посты канала (is_automatic_forward === true)
+bot.on("message", async (ctx, next) => {
+  if (!ctx.message.is_automatic_forward) return next();
+
+  console.log(`📬 Новый пост переброшен в обсуждение (id: ${ctx.message.message_id})`);
+  await handleChannelPost(ctx);
+});
+
+// ─────────────────────────────────────────────
 
 
 bot.use(limit({
@@ -83,9 +160,6 @@ bot.hears("ПРЕСЕТЫ/СОУС ИЗ ПРОШЛЫХ РОЛИКОВ", async (c
         await ctx.reply(config.pack_message2)
     }
 })
-
-
-
 
 
 bot.hears("Получить Чит для ВОКАЛА", async (ctx) => {
@@ -175,23 +249,19 @@ bot.command("setpack4", async (ctx) => {
 bot.catch((err) => {
     const ctx = err.ctx;
     console.error(`Error while handling update ${ctx.update.update_id}:`);
-    bot.api.sendMessage(5077230164, ctx.update.update_id)
+    bot.api.sendMessage(5077230164, `Update ID: ${ctx.update.update_id}`)
     const e = err.error;
     if (e instanceof GrammyError) {
       console.error("Error in request:", e.description);
-      bot.api.sendMessage(5077230164, e.description)
-      
+      bot.api.sendMessage(5077230164, `GrammyError: ${e.description}`)
     } else if (e instanceof HttpError) {
       console.error("Could not contact Telegram:", e);
-      bot.api.sendMessage(5077230164, e)
+      bot.api.sendMessage(5077230164, `HttpError: ${e.message}`)
     } else {
       console.error("Unknown error:", e);
-      bot.api.sendMessage(5077230164, ctx.update.e)
+      bot.api.sendMessage(5077230164, `Unknown error: ${String(e)}`)
     }
   });
-
-
-
 
 
 console.log("Бот стартовал успешно")
