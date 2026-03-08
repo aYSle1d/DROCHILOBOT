@@ -92,6 +92,12 @@ bot.on("message", async (ctx, next) => {
 
 // ─────────────────────────────────────────────
 
+// Весь прошлый функционал (команды, кнопки, выдача контента) — только в личке
+bot.use(async (ctx, next) => {
+  if (ctx.message?.is_automatic_forward) return next();
+  if (!ctx.chat || ctx.chat.type !== "private") return;
+  return next();
+});
 
 bot.use(limit({
     timeFrame: 10000,
