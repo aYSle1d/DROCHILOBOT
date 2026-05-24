@@ -18,7 +18,7 @@ const configPath = path.join(__dirname, "config.json");
 const BUTTON_ROWS = [
   [
     { text: "💬 ЧАТ",      url: "https://t.me/+u47o8FMZ-UU3MTRi" },
-    { text: "🎵 FL MAFIA", url: "https://t.me/flmafianewbot?start=FV8MJC7W" },
+    { text: "🎵 FL MAFIA", url: "https://flmafia.app/r/smoggy" },
   ],
   [
     { text: "🎹 17.CHEATS", url: "https://t.me/beatchainbot/beatchain?startapp=buykit_122221872419ad92d" },
